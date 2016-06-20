@@ -12,8 +12,10 @@ import com.edx.shell.android.facebookrecipes.libs.base.ImageLoader;
 
 import javax.inject.Singleton;
 
+import dagger.Module;
 import dagger.Provides;
 
+@Module
 public class LibsModule {
     private Activity activity;
 
