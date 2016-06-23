@@ -42,7 +42,7 @@ ext {
     retrofitVersion = "2.1.0"
     dbflowVersion = "3.0.0-beta3"
     butterknifeVersion = "7.0.1"
-    facebookVersion = "4.13.1"
+    facebookVersion = "[4,5)"
     eventbusVersion = "3.0.0"
     daggerVersion = "2.0.1"
     glideVersion = "3.7.0"
