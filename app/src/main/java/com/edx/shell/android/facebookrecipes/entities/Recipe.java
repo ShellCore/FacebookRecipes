@@ -55,7 +55,7 @@ public class Recipe extends BaseModel {
         this.sourceUrl = sourceUrl;
     }
 
-    public boolean isFavorite() {
+    public boolean getFavorite() {
         return favorite;
     }
 
