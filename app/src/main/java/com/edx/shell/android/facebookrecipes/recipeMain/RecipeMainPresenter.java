@@ -4,7 +4,7 @@ import com.edx.shell.android.facebookrecipes.entities.Recipe;
 import com.edx.shell.android.facebookrecipes.recipeMain.events.RecipeMainEvent;
 import com.edx.shell.android.facebookrecipes.recipeMain.ui.RecipeMainView;
 
-public interface RecipeMainRecipe {
+public interface RecipeMainPresenter {
     void onCreate();
     void onDestroy();
 
