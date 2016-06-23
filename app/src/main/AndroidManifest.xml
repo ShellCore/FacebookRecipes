@@ -33,7 +33,8 @@
             android:authorities="@string/FACEBOOK_PROVIDER_AUTH"
             android:exported="true" />
 
-        <activity android:name=".recipeMain.ui.RecipeMainActivity"></activity>
+        <activity android:name=".recipeMain.ui.RecipeMainActivity" />
+        <activity android:name=".recipeList.RecipeListActivity"></activity>
     </application>
 
 </manifest>
