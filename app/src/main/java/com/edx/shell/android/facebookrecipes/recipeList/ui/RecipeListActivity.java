@@ -16,6 +16,7 @@ import com.edx.shell.android.facebookrecipes.entities.Recipe;
 import com.edx.shell.android.facebookrecipes.recipeList.RecipeListPresenter;
 import com.edx.shell.android.facebookrecipes.recipeList.adapters.OnItemClickListener;
 import com.edx.shell.android.facebookrecipes.recipeList.adapters.RecipesAdapter;
+import com.edx.shell.android.facebookrecipes.recipeList.di.RecipeListComponent;
 import com.edx.shell.android.facebookrecipes.recipeMain.ui.RecipeMainActivity;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
     // Servicios
     private RecipesAdapter adapter;
     private RecipeListPresenter presenter;
+    private RecipeListComponent component;
 
     // Componentes
     @Bind(R.id.toolbar)
@@ -89,7 +91,10 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
     }
 
     private void setupInjection() {
-
+        FacebookRecipesApp app = (FacebookRecipesApp) getApplication();
+        component = app.getRecipeListComponent(this, this, this);
+        presenter = getPresenter();
+        adapter = getAdapter();
     }
 
     private void navigateToMainScreen() {
@@ -99,6 +104,14 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
     private void logout() {
         FacebookRecipesApp app = (FacebookRecipesApp) getApplication();
         app.logout();
+    }
+
+    private RecipeListPresenter getPresenter() {
+        return component.getPresenter();
+    }
+
+    private RecipesAdapter getAdapter() {
+        return component.getAdapter();
     }
 
     @OnClick(R.id.toolbar)

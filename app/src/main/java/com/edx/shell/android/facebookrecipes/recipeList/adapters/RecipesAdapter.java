@@ -56,6 +56,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
             holder.btnFavorite.setColorFilter(Color.YELLOW);
         } else {
             holder.btnFavorite.setImageResource(android.R.drawable.btn_star_big_off);
+            holder.btnFavorite.setColorFilter(Color.LTGRAY);
         }
 
         holder.setOnItemClickListener(currentRecipe, onItemClickListener);

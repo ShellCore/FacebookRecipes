@@ -13,6 +13,9 @@ public class RecipeListRepositoryImpl implements RecipeListRepository {
     // Servicios
     private EventBus eventBus;
 
+    public RecipeListRepositoryImpl(EventBus eventBus) {
+        this.eventBus = eventBus;
+    }
 
     @Override
     public void getSavedRecipes() {
