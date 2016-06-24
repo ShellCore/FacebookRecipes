@@ -1,4 +1,4 @@
-package com.edx.shell.android.facebookrecipes.recipeList;
+package com.edx.shell.android.facebookrecipes.recipeList.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
