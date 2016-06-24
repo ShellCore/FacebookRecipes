@@ -20,6 +20,7 @@ import com.edx.shell.android.facebookrecipes.entities.Recipe;
 import com.edx.shell.android.facebookrecipes.libs.base.ImageLoader;
 import com.edx.shell.android.facebookrecipes.recipeList.RecipeListActivity;
 import com.edx.shell.android.facebookrecipes.recipeMain.RecipeMainPresenter;
+import com.edx.shell.android.facebookrecipes.recipeMain.di.RecipeMainComponent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,6 +34,7 @@ public class RecipeMainActivity extends AppCompatActivity implements RecipeMainV
     // Servicios
     RecipeMainPresenter presenter;
     private ImageLoader imageLoader;
+    private RecipeMainComponent component;
 
     // Componentes de la vista
     @Bind(R.id.img_recipe)
@@ -105,7 +107,18 @@ public class RecipeMainActivity extends AppCompatActivity implements RecipeMainV
     }
 
     private void setupInjection() {
+        FacebookRecipesApp app = (FacebookRecipesApp) getApplication();
+        component = app.getRecipeMainComponent(this, this);
+        imageLoader = getImageLoader();
+        presenter = getPresenter();
+    }
 
+    private ImageLoader getImageLoader() {
+        return component.getImageLoader();
+    }
+
+    private RecipeMainPresenter getPresenter() {
+        return component.getPresenter();
     }
 
     private void setupImageLoader() {
@@ -122,8 +135,7 @@ public class RecipeMainActivity extends AppCompatActivity implements RecipeMainV
                 return false;
             }
         };
-        // TODO: 23/06/2016 Comentado por que falta la inyección de dependencias
-        // imageLoader.setOnFinishedImageLoadingListener(glideRequestListener);
+        imageLoader.setOnFinishedImageLoadingListener(glideRequestListener);
     }
 
     @Override
