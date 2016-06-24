@@ -8,5 +8,6 @@
     <string name="recipemain.menu.action.list">Recetas guardadas</string>
 
     <string name="global.menu.action.logout">Cerrar sesión</string>
+    <string name="recipemain.menu.action.main">Elegir receta</string>
 
 </resources>
