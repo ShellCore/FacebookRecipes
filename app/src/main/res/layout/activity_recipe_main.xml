@@ -29,7 +29,7 @@
             android:layout_width="@dimen/recipe_main_icon"
             android:layout_height="@dimen/recipe_main_icon"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@color/colorAccent2"
+            android:background="@color/colorAccentCancel"
             android:src="@android:drawable/ic_delete"
             android:tint="@android:color/white" />
 

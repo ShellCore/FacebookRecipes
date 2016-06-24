@@ -22,7 +22,7 @@ import com.edx.shell.android.facebookrecipes.FacebookRecipesApp;
 import com.edx.shell.android.facebookrecipes.R;
 import com.edx.shell.android.facebookrecipes.entities.Recipe;
 import com.edx.shell.android.facebookrecipes.libs.base.ImageLoader;
-import com.edx.shell.android.facebookrecipes.recipeList.RecipeListActivity;
+import com.edx.shell.android.facebookrecipes.recipeList.ui.RecipeListActivity;
 import com.edx.shell.android.facebookrecipes.recipeMain.RecipeMainPresenter;
 import com.edx.shell.android.facebookrecipes.recipeMain.di.RecipeMainComponent;
 

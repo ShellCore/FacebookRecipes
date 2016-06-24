@@ -34,7 +34,7 @@
             android:exported="true" />
 
         <activity android:name=".recipeMain.ui.RecipeMainActivity" />
-        <activity android:name=".recipeList.RecipeListActivity"></activity>
+        <activity android:name=".recipeList.ui.RecipeListActivity" android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
