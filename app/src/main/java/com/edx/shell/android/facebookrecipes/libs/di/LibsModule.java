@@ -1,7 +1,6 @@
 package com.edx.shell.android.facebookrecipes.libs.di;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -31,8 +30,8 @@ public class LibsModule {
 
     @Provides
     @Singleton
-    RequestManager providesRequestManager(Fragment fragment) {
-        return Glide.with(fragment);
+    RequestManager providesRequestManager(Activity activity) {
+        return Glide.with(activity);
     }
 
     @Provides
