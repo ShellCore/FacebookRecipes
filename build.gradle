@@ -47,4 +47,8 @@ ext {
     daggerVersion = "2.0.1"
     glideVersion = "3.7.0"
     jsr250Version = "1.0"
+
+    roboelectricVersion = '3.1'
+    mockitoVersion = '1.10.19'
+    junitVersion = '4.12'
 }
