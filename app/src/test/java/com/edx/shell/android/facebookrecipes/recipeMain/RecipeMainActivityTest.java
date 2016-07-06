@@ -1,5 +1,7 @@
 package com.edx.shell.android.facebookrecipes.recipeMain;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -10,6 +12,8 @@ import com.edx.shell.android.facebookrecipes.BuildConfig;
 import com.edx.shell.android.facebookrecipes.R;
 import com.edx.shell.android.facebookrecipes.entities.Recipe;
 import com.edx.shell.android.facebookrecipes.libs.base.ImageLoader;
+import com.edx.shell.android.facebookrecipes.login.ui.LoginActivity;
+import com.edx.shell.android.facebookrecipes.recipeList.ui.RecipeListActivity;
 import com.edx.shell.android.facebookrecipes.recipeMain.ui.RecipeMainActivity;
 import com.edx.shell.android.facebookrecipes.recipeMain.ui.RecipeMainView;
 
@@ -19,6 +23,7 @@ import org.mockito.Mock;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
 
 import static junit.framework.Assert.assertEquals;
@@ -26,6 +31,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
@@ -38,20 +44,22 @@ public class RecipeMainActivityTest extends BaseTest {
     @Mock
     private ImageLoader imageLoader;
 
+    private RecipeMainView view;
     private RecipeMainActivity activity;
 
-    private RecipeMainView view;
-
     private ActivityController<RecipeMainActivity> controller;
+    private ShadowActivity shadowActivity;
 
     @Override
     public void setup() throws Exception {
         super.setup();
         RecipeMainActivity recipeMainActivity = new RecipeMainActivity() {
+            @Override
             public ImageLoader getImageLoader() {
                 return imageLoader;
             }
 
+            @Override
             public RecipeMainPresenter getPresenter() {
                 return presenter;
             }
@@ -63,6 +71,35 @@ public class RecipeMainActivityTest extends BaseTest {
 
         activity = controller.get();
         view = (RecipeMainView) activity;
+        shadowActivity = shadowOf(activity);
+    }
+
+    @Test
+    public void testOnActivityCreated_getNextRecipe() throws Exception {
+        verify(presenter).onCreate();
+        verify(presenter).getNextRecipe();
+    }
+
+    @Test
+    public void testOnActivityDestroyed_destroyPresenter() throws Exception {
+        controller.destroy();
+        verify(presenter).onDestroy();
+    }
+
+    @Test
+    public void testLogoutMenuClicked_ShouldLaunchLoginActivity() throws Exception {
+        shadowActivity.clickMenuItem(R.id.action_logout);
+
+        Intent intent = shadowActivity.peekNextStartedActivity();
+        assertEquals(new ComponentName(activity, LoginActivity.class), intent.getComponent());
+    }
+
+    @Test
+    public void testListMenuClicked_ShouldLaunchRecipeListActivity() throws Exception {
+        shadowActivity.clickMenuItem(R.id.action_list);
+
+        Intent intent = shadowActivity.peekNextStartedActivity();
+        assertEquals(new ComponentName(activity, RecipeListActivity.class), intent.getComponent());
     }
 
     @Test
