@@ -120,11 +120,11 @@ public class RecipeMainActivity extends AppCompatActivity implements RecipeMainV
         presenter = getPresenter();
     }
 
-    private ImageLoader getImageLoader() {
+    public ImageLoader getImageLoader() {
         return component.getImageLoader();
     }
 
-    private RecipeMainPresenter getPresenter() {
+    public RecipeMainPresenter getPresenter() {
         return component.getPresenter();
     }
 
