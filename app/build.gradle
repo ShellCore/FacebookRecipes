@@ -9,9 +9,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    // En caso de que el compilador muestre error en la búsqueda de cliente HTTP, descomentar
-    // (Problema de Robolectric)
-    // useLibrary 'org.apache.http.legacy'
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.edx.shell.android.facebookrecipes"

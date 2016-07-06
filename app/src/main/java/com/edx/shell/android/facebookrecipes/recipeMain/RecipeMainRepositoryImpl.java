@@ -33,7 +33,7 @@ public class RecipeMainRepositoryImpl implements RecipeMainRepository {
         Callback<RecipeSearchResponse> callback = new Callback<RecipeSearchResponse>() {
             @Override
             public void onResponse(Call<RecipeSearchResponse> call, Response<RecipeSearchResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccess()) {
                     RecipeSearchResponse recipeSearchResponse = response.body();
                     if (recipeSearchResponse.getCount() == 0) { // No devolvió nada
                         setRecipePage(new Random().nextInt(RECIPE_RANGE));
