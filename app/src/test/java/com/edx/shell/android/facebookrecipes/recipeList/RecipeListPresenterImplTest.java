@@ -3,15 +3,20 @@ package com.edx.shell.android.facebookrecipes.recipeList;
 import com.edx.shell.android.facebookrecipes.BaseTest;
 import com.edx.shell.android.facebookrecipes.entities.Recipe;
 import com.edx.shell.android.facebookrecipes.libs.base.EventBus;
+import com.edx.shell.android.facebookrecipes.recipeList.events.RecipeListEvent;
 import com.edx.shell.android.facebookrecipes.recipeList.ui.RecipeListView;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import java.util.Arrays;
+
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class RecipeListPresenterImplTest extends BaseTest {
 
@@ -25,6 +30,8 @@ public class RecipeListPresenterImplTest extends BaseTest {
     private StoredRecipesInteractor storedInteractor;
     @Mock
     private Recipe recipe;
+    @Mock
+    private RecipeListEvent event;
 
     private RecipeListPresenterImpl presenter;
 
@@ -83,5 +90,38 @@ public class RecipeListPresenterImplTest extends BaseTest {
         verify(storedInteractor).executeUpdate(recipeArgumentCaptor.capture());
 
         assertEquals(!favorite, recipeArgumentCaptor.getValue().getFavorite());
+    }
+
+    @Test
+    public void testOnReadEvent_SetRecipesOnView() throws Exception {
+        when(event.getType()).thenReturn(RecipeListEvent.READ_EVENT);
+        when(event.getRecipes()).thenReturn(Arrays.asList(recipe));
+
+        presenter.onEventMainThread(event);
+        assertNotNull(presenter.getView());
+        verify(view).setRecipes(Arrays.asList(recipe));
+    }
+
+    @Test
+    public void testOnUpdatedEvent_CallUpdateOnView() throws Exception {
+        when(event.getType()).thenReturn(RecipeListEvent.UPDATE_EVENT);
+
+        presenter.onEventMainThread(event);
+        assertNotNull(presenter.getView());
+        verify(view).recipeUpdated();
+    }
+    @Test
+    public void testOnDeleteEvent_RemovesFromView() throws Exception {
+        when(event.getType()).thenReturn(RecipeListEvent.DELETE_EVENT);
+        when(event.getRecipes()).thenReturn(Arrays.asList(recipe));
+
+        presenter.onEventMainThread(event);
+        assertNotNull(presenter.getView());
+        verify(view).recipeDeleted(recipe);
+    }
+
+    @Test
+    public void testGetView_returnsView() throws Exception {
+        assertEquals(view, presenter.getView());
     }
 }
