@@ -2,6 +2,7 @@ package com.edx.shell.android.facebookrecipes.recipeMain;
 
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.edx.shell.android.facebookrecipes.BaseTest;
@@ -21,6 +22,10 @@ import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
@@ -95,5 +100,33 @@ public class RecipeMainActivityTest extends BaseTest {
         ImageButton btnKeep = (ImageButton) activity.findViewById(R.id.btn_keep);
         assertEquals(View.GONE, btnDismiss.getVisibility());
         assertEquals(View.GONE, btnKeep.getVisibility());
+    }
+
+    @Test
+    public void testSetRecipe_ImageLoaderShouldBeCalled() throws Exception {
+        String url = "http://www.galileo.edu";
+        when(currentRecipe.getImageUrl()).thenReturn(url);
+
+        view.setRecipe(currentRecipe);
+        ImageView imgRecipe = (ImageView) activity.findViewById(R.id.img_recipe);
+        verify(imageLoader).load(imgRecipe, currentRecipe.getImageUrl());
+    }
+
+    @Test
+    public void testSaveAnimation_AnimationShouldBeStarted() throws Exception {
+        view.saveAnimation();
+
+        ImageView imgRecipe = (ImageView) activity.findViewById(R.id.img_recipe);
+        assertNotNull(imgRecipe.getAnimation());
+        assertTrue(imgRecipe.getAnimation().hasStarted());
+    }
+
+    @Test
+    public void testDismissAnimation_AnimationShouldBeStarted() throws Exception {
+        view.dismissAnimation();
+
+        ImageView imgRecipe = (ImageView) activity.findViewById(R.id.img_recipe);
+        assertNotNull(imgRecipe.getAnimation());
+        assertTrue(imgRecipe.getAnimation().hasStarted());
     }
 }
