@@ -19,12 +19,14 @@ import com.edx.shell.android.facebookrecipes.recipeList.ui.RecipeListView;
 import com.edx.shell.android.facebookrecipes.recipeMain.ui.RecipeMainActivity;
 import com.edx.shell.android.facebookrecipes.support.ShadowRecyclerView;
 import com.edx.shell.android.facebookrecipes.support.ShadowRecyclerViewAdapter;
+import com.facebook.FacebookActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.internal.ShadowExtractor;
 import org.robolectric.shadows.ShadowActivity;
@@ -168,6 +170,52 @@ public class RecipeListActivityTest extends BaseTest {
         Intent intent = shadowActivity.peekNextStartedActivity();
         assertEquals(Intent.ACTION_VIEW, intent.getAction());
         assertEquals(recipes.get(positionToClick).getSourceUrl(), intent.getDataString());
+    }
+
+    @Test
+    public void testRecyclerViewFavoriteClicked_ShouldCallPresenter() throws Exception {
+        int positionToClick = 0;
+        setUpShadowAdapter(positionToClick);
+
+        shadowAdapter.itemVisible(positionToClick);
+        shadowAdapter.performItemClickOverViewInHolder(positionToClick, R.id.btn_favorite);
+
+        verify(presenter).toggleFavorite(recipe);
+    }
+
+    @Test
+    public void testRecyclerViewRemoveClicked_ShouldCallPresenter() throws Exception {
+        int positionToClick = 0;
+        setUpShadowAdapter(positionToClick);
+
+        shadowAdapter.itemVisible(positionToClick);
+        shadowAdapter.performItemClickOverViewInHolder(positionToClick, R.id.btn_delete);
+
+        verify(presenter).removeRecipe(recipe);
+    }
+
+    @Test
+    public void testRecyclerViewFbShareClicked_ShouldStartFbActivity() throws Exception {
+        int positionToClick = 0;
+        setUpShadowAdapter(positionToClick);
+
+        shadowAdapter.itemVisible(positionToClick);
+        shadowAdapter.performItemClickOverViewInHolder(positionToClick, R.id.btn_share);
+
+        Intent intent = shadowActivity.peekNextStartedActivity();
+        assertEquals(new ComponentName(RuntimeEnvironment.application, FacebookActivity.class), intent.getComponent());
+    }
+
+    @Test
+    public void testRecyclerViewFbSendClicked_ShouldStartFbActivity() throws Exception {
+        int positionToClick = 0;
+        setUpShadowAdapter(positionToClick);
+
+        shadowAdapter.itemVisible(positionToClick);
+        shadowAdapter.performItemClickOverViewInHolder(positionToClick, R.id.btn_send);
+
+        Intent intent = shadowActivity.peekNextStartedActivity();
+        assertEquals(new ComponentName(RuntimeEnvironment.application, FacebookActivity.class), intent.getComponent());
     }
 
     private void setUpShadowAdapter(int positionToClick) {
