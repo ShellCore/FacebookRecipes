@@ -3,9 +3,12 @@ package com.edx.shell.android.facebookrecipes.recipeList.adapters;
 import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.edx.shell.android.facebookrecipes.BaseTest;
 import com.edx.shell.android.facebookrecipes.BuildConfig;
+import com.edx.shell.android.facebookrecipes.R;
 import com.edx.shell.android.facebookrecipes.entities.Recipe;
 import com.edx.shell.android.facebookrecipes.libs.base.ImageLoader;
 import com.edx.shell.android.facebookrecipes.support.ShadowRecyclerViewAdapter;
@@ -81,5 +84,20 @@ public class RecipesAdapterTest extends BaseTest {
         shadowAdapter.performItemClick(positionToClick);
 
         verify(onItemClickListener).onItemClick(recipe);
+    }
+
+    @Test
+    public void testViewHolder_ShouldRenderTitle() throws Exception {
+        int positionToShow = 0;
+        String recipeTitle = "title";
+        when(recipe.getTitle()).thenReturn(recipeTitle);
+        when(recipes.get(positionToShow)).thenReturn(recipe);
+
+        shadowAdapter.itemVisible(positionToShow);
+
+        View view = shadowAdapter.getViewForHolderPosition(positionToShow);
+        TextView txtRecipeName = (TextView) view.findViewById(R.id.txt_recipe_name);
+
+        assertEquals(recipeTitle, txtRecipeName.getText().toString());
     }
 }
