@@ -17,7 +17,7 @@ public class ShadowRecyclerViewAdapter {
     private SparseArray<RecyclerView.ViewHolder> holders = new SparseArray<>();
 
     @Implementation
-    public void onAttachToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
 

@@ -25,7 +25,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21, shadows = {ShadowRecyclerViewAdapter.class})
+@Config(constants = BuildConfig.class,
+        sdk = 21,
+        shadows = {ShadowRecyclerViewAdapter.class})
 public class RecipesAdapterTest extends BaseTest {
 
     @Mock
@@ -43,7 +45,7 @@ public class RecipesAdapterTest extends BaseTest {
     @Override
     public void setup() throws Exception {
         super.setup();
-        when(recipe.getSourceUrl()).thenReturn("http://www.galileo.edu");
+        when(recipe.getSourceUrl()).thenReturn("http://www.google.com");
 
         adapter = new RecipesAdapter(imageLoader, recipes, onItemClickListener);
         shadowAdapter = (ShadowRecyclerViewAdapter) ShadowExtractor.extract(adapter);
