@@ -93,8 +93,8 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
     private void setupInjection() {
         FacebookRecipesApp app = (FacebookRecipesApp) getApplication();
         component = app.getRecipeListComponent(this, this, this);
-        presenter = getPresenter();
-        adapter = getAdapter();
+        presenter = getListPresenter();
+        adapter = getListAdapter();
     }
 
     private void navigateToMainScreen() {
@@ -106,11 +106,11 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListV
         app.logout();
     }
 
-    private RecipeListPresenter getPresenter() {
+    public RecipeListPresenter getListPresenter() {
         return component.getPresenter();
     }
 
-    private RecipesAdapter getAdapter() {
+    public RecipesAdapter getListAdapter() {
         return component.getAdapter();
     }
 
