@@ -34,6 +34,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -58,6 +59,7 @@ public class RecipeListActivityTest extends BaseTest {
     private ActivityController<RecipeListActivity> controller;
 
     private ShadowActivity shadowActivity;
+    private ShadowRecyclerViewAdapter shadowAdapter;
 
     @Override
     public void setup() throws Exception {
@@ -153,5 +155,28 @@ public class RecipeListActivityTest extends BaseTest {
 
         toolbar.performClick();
         assertEquals(topScrollPosition, shadowRecyclerView.getSmoothScrollPosition());
+    }
+
+    @Test
+    public void testRecyclerViewItemClicked_ShouldStartViewActivity() throws Exception {
+        int positionToClick = 0;
+        setUpShadowAdapter(positionToClick);
+
+        shadowAdapter.itemVisible(positionToClick);
+        shadowAdapter.performItemClick(positionToClick);
+
+        Intent intent = shadowActivity.peekNextStartedActivity();
+        assertEquals(Intent.ACTION_VIEW, intent.getAction());
+        assertEquals(recipes.get(positionToClick).getSourceUrl(), intent.getDataString());
+    }
+
+    private void setUpShadowAdapter(int positionToClick) {
+        when(recipe.getSourceUrl()).thenReturn("http://www.google.com");
+        when(recipes.get(positionToClick)).thenReturn(recipe);
+
+        RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.rec_recipes);
+        RecipesAdapter adapterPopulated = new RecipesAdapter(imageLoader, recipes, clickListener);
+        recyclerView.setAdapter(adapterPopulated);
+        shadowAdapter = (ShadowRecyclerViewAdapter) ShadowExtractor.extract(recyclerView.getAdapter());
     }
 }
